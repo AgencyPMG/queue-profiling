@@ -1,0 +1,21 @@
+{
+    "name": "pmg/queue-blackfire",
+    "description": "A queue consumer and message handler pair that profiles with blackfire.io",
+    "license": "Apache-2.0",
+    "authors": [
+        { "name": "Christopher Davis", "email": "chris@pmg.com" }
+    ],
+    "require": {
+        "php": "~5.6|~7.0",
+        "blackfire/php-sdk": "~1.0",
+        "pmg/queue": "~3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~5.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "PMG\\Queue\\": "src/"
+        }
+    }
+}
