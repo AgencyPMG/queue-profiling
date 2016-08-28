@@ -26,7 +26,7 @@ class ProfilingConsumerTest extends \PHPUnit_Framework_TestCase
         $this->driver->enqueue('test', $msg);
         $this->handler->expects($this->once())
             ->method('handle')
-            ->with($msg, ['profile' => false])
+            ->with($msg, [ProfilingConsumer::FLAG => false])
             ->willReturn(true);
 
         $this->consumer->disableProfiling();
@@ -41,7 +41,7 @@ class ProfilingConsumerTest extends \PHPUnit_Framework_TestCase
         $this->driver->enqueue('test', $msg);
         $this->handler->expects($this->once())
             ->method('handle')
-            ->with($msg, ['profile' => true])
+            ->with($msg, [ProfilingConsumer::FLAG => true])
             ->willReturn(true);
 
         $this->consumer->enableProfiling();
@@ -62,7 +62,7 @@ class ProfilingConsumerTest extends \PHPUnit_Framework_TestCase
         $this->driver->enqueue('test', $msg2);
         $this->handler->expects($this->at(0))
             ->method('handle')
-            ->with($msg, ['profile' => false])
+            ->with($msg, [ProfilingConsumer::FLAG => false])
             ->willReturnCallback(function () {
                 // send ourselves the toggle signal
                 posix_kill(posix_getpid(), SIGUSR1);
@@ -70,7 +70,7 @@ class ProfilingConsumerTest extends \PHPUnit_Framework_TestCase
             });
         $this->handler->expects($this->at(1))
             ->method('handle')
-            ->with($msg2, ['profile' => true])
+            ->with($msg2, [ProfilingConsumer::FLAG => true])
             ->willThrowException(new SimpleMustStop());
 
         $this->consumer->disableProfiling();
@@ -91,7 +91,7 @@ class ProfilingConsumerTest extends \PHPUnit_Framework_TestCase
         $this->driver->enqueue('test', $msg2);
         $this->handler->expects($this->at(0))
             ->method('handle')
-            ->with($msg, ['profile' => true])
+            ->with($msg, [ProfilingConsumer::FLAG => true])
             ->willReturnCallback(function () {
                 // send ourselves the toggle signal
                 posix_kill(posix_getpid(), SIGUSR1);
@@ -99,7 +99,7 @@ class ProfilingConsumerTest extends \PHPUnit_Framework_TestCase
             });
         $this->handler->expects($this->at(1))
             ->method('handle')
-            ->with($msg2, ['profile' => false])
+            ->with($msg2, [ProfilingConsumer::FLAG => false])
             ->willThrowException(new SimpleMustStop());
 
         $this->consumer->enableProfiling();

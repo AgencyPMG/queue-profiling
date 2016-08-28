@@ -23,6 +23,8 @@ use Psr\Log\LoggerInterface;
  */
 final class ProfilingConsumer extends DefaultConsumer
 {
+    const FLAG = 'profile';
+
     /**
      * Whether or not to pass the profiling option to the message handler
      *
@@ -79,7 +81,7 @@ final class ProfilingConsumer extends DefaultConsumer
     public function once($queueName)
     {
         $this->setHandlerOptions([
-            'profile' => $this->isProfilingEnabled(),
+            self::FLAG => $this->isProfilingEnabled(),
         ]);
 
         return parent::once($queueName);
